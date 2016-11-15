@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>HealthShare</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/main.min.css"/>
+    <link rel="icon" href="cmc.ico"/>
+    <!-- endinject -->
+
+    <!-- fixes foundation bug occurs when foundation when css is not included -->
+    <style>meta.foundation-mq {
+      font-family: "small=&medium=&large=&xlarge=&xxlarge=";
+    }</style>
+  </head>
+
+  <body ng-app="app" ng-strict-di>
+
+      <isc-critical-banner message="{{mainCtrl.criticalMessage}}"></isc-critical-banner>
+
+      <!-- confirmation -->
+      <isc-confirmation></isc-confirmation>
+
+      <!-- Spinner -->
+      <isc-spinner></isc-spinner>
+
+      <!-- isc-notification for toast messages -->
+      <isc-notification-set></isc-notification-set>
+
+      <!--modal background-->
+      <div class="isc-modal-bkgrnd"></div>
+
+      <div ui-view></div>
+
+      <breakpoints style="height:0; width:0; visibility: hidden;" ></breakpoints>
+      <!-- inject:js -->
+      <!-- endinject -->
+  </body>
+</html>
