@@ -23,8 +23,7 @@
         translationKey: 'Login',
         controller    : 'loginController as loginCtrl',
         layout        : "layout/tpls/blank.html",
-        roles         : ['*'],
-        landingPageFor: ['*']
+        roles         : ['*']
       }
     };
   }

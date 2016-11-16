@@ -20,4 +20,10 @@
 //   }
 // ];
 
-module.exports = [];
+module.exports = [
+    {
+        pattern : "/api/v1",
+        target  : "http://localhost:3030",
+        logLevel: 'debug'
+    }
+];

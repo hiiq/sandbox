@@ -3,8 +3,8 @@
  */
 
 ( function() {
-  'use strict';
-  /**
+'use strict';
+/**
    * @namespace directives
    * @memberof directives
    * @ngdoc module
@@ -13,7 +13,7 @@
    *   This module implements reusable directives to be used accross the applications.
    *
    */
-  angular
-    .module( 'isc.directives', ['isc.core', 'pascalprecht.translate', 'foundation'] );
+angular
+  .module( 'isc.directives', ['isc.core', 'pascalprecht.translate', 'foundation'] );
 
 } )();

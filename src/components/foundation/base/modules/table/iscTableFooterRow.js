@@ -3,13 +3,13 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular.module( 'isc.table' )
-    .directive( 'iscTableFooterRow', iscTableFooterRow );
+angular.module( 'isc.table' )
+  .directive( 'iscTableFooterRow', iscTableFooterRow );
 
-  /* @ngInject */
-  /**
+/* @ngInject */
+/**
    * @memberOf isc.table
    * @ngdoc directive
    * @param devlog
@@ -18,49 +18,49 @@
    * @param $compile
    * @returns {{scope: boolean, restrict: string, controllerAs: string, compile: compile}}
    */
-  function iscTableFooterRow( devlog, $state, $templateCache, $compile ) {
-    var channel = devlog.channel( 'iscTableFooterRow' );
+function iscTableFooterRow( devlog, $state, $templateCache, $compile ) {
+  var channel = devlog.channel( 'iscTableFooterRow' );
 
-    channel.debug( 'iscTableFooterRow.LOADED' );
+  channel.debug( 'iscTableFooterRow.LOADED' );
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
+  // ----------------------------
+  // class factory
+  // ----------------------------
 
-    var directive = {
-      scope       : true, //prototypal inheritance
-      restrict    : 'A',
-      controllerAs: 'iscFooterRowCtrl',
-      compile     : compile
+  var directive = {
+    scope       : true, //prototypal inheritance
+    restrict    : 'A',
+    controllerAs: 'iscFooterRowCtrl',
+    compile     : compile
+  };
+
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+  function compile() {
+
+    return {
+      pre: pre
     };
 
-    return directive;
+    function pre( scope, trElem, attrs, iscRowCtrl ) { //jshint ignore:line
+      var footerRowTemplate = _.get( scope, 'iscTblCtrl.tableConfig.footerRowTemplate' );
 
-    // ----------------------------
-    // functions
-    // ----------------------------
-    function compile() {
+      if ( footerRowTemplate ) {
+        //for some reason the template doesn't like spaces nor comments
+        var template = $templateCache.get( footerRowTemplate );
 
-      return {
-        pre: pre
-      };
-
-      function pre( scope, trElem, attrs, iscRowCtrl ) { //jshint ignore:line
-        var footerRowTemplate = _.get( scope, 'iscTblCtrl.tableConfig.footerRowTemplate' );
-
-        if ( footerRowTemplate ) {
-          //for some reason the template doesn't like spaces nor comments
-          var template = $templateCache.get( footerRowTemplate );
-
-          trElem.html( template );
-          $compile( trElem.contents() )( scope );
-        }
+        trElem.html( template );
+        $compile( trElem.contents() )( scope );
       }
     }
   }
+}
 
 } )();

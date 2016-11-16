@@ -1,6 +1,6 @@
 ( function() {
-  'use strict';
+'use strict';
 
-  angular.module( 'isc.notification', [] );
+angular.module( 'isc.notification', [] );
 
 } )();

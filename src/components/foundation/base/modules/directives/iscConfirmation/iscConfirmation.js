@@ -3,66 +3,66 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscConfirmation', iscConfirmation );
+angular.module( 'isc.directives' )
+  .directive( 'iscConfirmation', iscConfirmation );
 
-  /**
+/**
    * @ngdoc directive
    * @memberOf directives
    * @name iscConfirmation
    * @restrict 'E'
    * @returns {{restrict: string, link: link, controller: controller, controllerAs: string, templateUrl: directive.templateUrl}}
    */
-  function iscConfirmation() {//jshint ignore:line
+function iscConfirmation() {//jshint ignore:line
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict    : 'E',
-      scope       : {},
-      link        : link,
-      controller  : controller,
-      controllerAs: 'iscConfirmCtrl',
-      templateUrl : function( elem, attrs ) {
-        return attrs.templateUrl || 'directives/iscConfirmation/iscConfirmation.html';
-      }
-    };
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict    : 'E',
+    scope       : {},
+    link        : link,
+    controller  : controller,
+    controllerAs: 'iscConfirmCtrl',
+    templateUrl : function( elem, attrs ) {
+      return attrs.templateUrl || 'directives/iscConfirmation/iscConfirmation.html';
+    }
+  };
 
-    return directive;
+  return directive;
 
-    // ----------------------------
-    // link
-    function link( $scope, elem, attrs, iscConfirmCtrl ) {
-      var modalScope = elem.find( '[zf-modal]' ).scope();
-      $scope.$watch( 'iscConfirmCtrl.service.isOpen', function( newVal, oldVal ) {
-        if ( newVal !== oldVal ) {
-          if ( newVal === true ) {
-            modalScope.show();
-          } else {
-            modalScope.hide();
-          }
+  // ----------------------------
+  // link
+  function link( $scope, elem, attrs, iscConfirmCtrl ) {
+    var modalScope = elem.find( '[zf-modal]' ).scope();
+    $scope.$watch( 'iscConfirmCtrl.service.isOpen', function( newVal, oldVal ) {
+      if ( newVal !== oldVal ) {
+        if ( newVal === true ) {
+          modalScope.show();
+        } else {
+          modalScope.hide();
         }
-      } );
-    }
+      }
+    } );
+  }
 
-    // ----------------------------
-    // controller
-    /* @ngInject */
-    function controller( iscConfirmationService ) {
-      var self     = this;
-      self.service = iscConfirmationService;
-    }
+  // ----------------------------
+  // controller
+  /* @ngInject */
+  function controller( iscConfirmationService ) {
+    var self     = this;
+    self.service = iscConfirmationService;
+  }
 
-  }//END CLASS
+}//END CLASS
 
 } )();

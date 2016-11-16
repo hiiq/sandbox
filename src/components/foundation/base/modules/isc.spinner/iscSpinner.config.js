@@ -3,16 +3,16 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular
-    .module( 'isc.spinner' )
-    .config( config );
+angular
+  .module( 'isc.spinner' )
+  .config( config );
 
-  function config( $httpProvider ) {
-    //adding the spinner interceptor code handler
-    $httpProvider.interceptors.push( 'httpLoaderInterceptor' );
-  }
+function config( $httpProvider ) {
+  //adding the spinner interceptor code handler
+  $httpProvider.interceptors.push( 'httpLoaderInterceptor' );
+}
 
 } )();
 

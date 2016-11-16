@@ -2,7 +2,7 @@
 /* NG-TAGS-INPUT STYLES						  */
 /* ****************************************** */
 
-isc-lookahead-component {
+isc-typeahead-component {
   tags-input.ng-invalid .tags {
     box-shadow : 0 0 0 0 rgba(0, 0, 0, 0);
   }
@@ -66,6 +66,24 @@ isc-lookahead-component {
     .autocomplete {
       margin-top : 0;
       padding    : 0;
+    }
+  }
+
+  // Special style to handle text only auto-complete selected value
+  tags-input.no-tags {
+    .tags {
+      .tag-item {
+        border-radius : 0;
+        border        : solid 1px #fff;
+        background    : #fff;
+        color         : #000;
+        padding       : 0 0.2rem;
+        height        : 1.9rem;
+
+        .remove-button {
+          display : none;
+        }
+      }
     }
   }
 

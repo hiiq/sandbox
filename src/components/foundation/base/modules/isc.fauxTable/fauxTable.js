@@ -3,12 +3,12 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular.module( 'isc.fauxTable' )
-    .directive( 'fauxTable', fauxTable );
+angular.module( 'isc.fauxTable' )
+  .directive( 'fauxTable', fauxTable );
 
-  /**
+/**
    * @ngdoc directive
    * @memberOf isc.fauxTable
    * @description
@@ -29,71 +29,71 @@
    * }
    * @returns {{restrict: string, controller: controller, controllerAs: string, bindToController: {config: string, data: string}, scope: boolean, templateUrl: directive.templateUrl}}
    */
-  function fauxTable() {//jshint ignore:line
+function fauxTable() {//jshint ignore:line
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict        : 'EA',
-      controller      : controller,
-      controllerAs    : 'fauxTblCtrl',
-      bindToController: {
-        config: '=',
-        data  : '='
-      },
-      scope           : {},
-      templateUrl     : function( elem, attrs ) {
-        return attrs.templateUrl || 'isc.fauxTable/fauxTable.html';
-      }
-    };
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict        : 'EA',
+    controller      : controller,
+    controllerAs    : 'fauxTblCtrl',
+    bindToController: {
+      config: '=',
+      data  : '='
+    },
+    scope           : {},
+    templateUrl     : function( elem, attrs ) {
+      return attrs.templateUrl || 'isc.fauxTable/fauxTable.html';
+    }
+  };
 
-    return directive;
+  return directive;
 
-    // ----------------------------
-    // functions
-    // ----------------------------
-    function controller() {
-      var self = this;
+  // ----------------------------
+  // functions
+  // ----------------------------
+  function controller() {
+    var self = this;
 
-      angular.extend( self, {
-        sort   : sort,
-        getSort: getSort
-      } );
+    angular.extend( self, {
+      sort   : sort,
+      getSort: getSort
+    } );
 
-      /*========================================
-       =                 private               =
-       ========================================*/
-      /**
-       * Place the specified column as sort column
-       * sortDirection: true => asc
-       * sortDirection: false => desc
-       * @param column
-       *
-       */
-      function sort( column ) {
-        if ( self.sortBy !== column.model ) {
-          self.sortBy        = column.model;
-          self.sortDirection = false;
-        } else { //asc => desc
-          self.sortDirection = !self.sortDirection;
-        }
-      }
-
-      /**
-       * Gets the state of the sort for the specified column
-       * @param column
-       * @return null = not sorted, 'asc' = ascending, 'desc' = descending
-       */
-      function getSort( column ) {
-        var sortState = null;
-        if ( self.sortBy === column.model ) {
-          sortState = self.sortDirection ? 'asc' : 'desc';
-        }
-        return sortState;
+    /*========================================
+     =                 private               =
+     ========================================*/
+    /**
+     * Place the specified column as sort column
+     * sortDirection: true => asc
+     * sortDirection: false => desc
+     * @param column
+     *
+     */
+    function sort( column ) {
+      if ( self.sortBy !== column.model ) {
+        self.sortBy        = column.model;
+        self.sortDirection = false;
+      } else { //asc => desc
+        self.sortDirection = !self.sortDirection;
       }
     }
 
-  }//END CLASS
+    /**
+     * Gets the state of the sort for the specified column
+     * @param column
+     * @return null = not sorted, 'asc' = ascending, 'desc' = descending
+     */
+    function getSort( column ) {
+      var sortState = null;
+      if ( self.sortBy === column.model ) {
+        sortState = self.sortDirection ? 'asc' : 'desc';
+      }
+      return sortState;
+    }
+  }
+
+}//END CLASS
 
 } )();

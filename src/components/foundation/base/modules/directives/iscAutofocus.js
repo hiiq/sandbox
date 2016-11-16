@@ -14,15 +14,15 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscAutofocus', iscAutofocus );
+angular.module( 'isc.directives' )
+  .directive( 'iscAutofocus', iscAutofocus );
 
-  /**
+/**
    * @ngdoc directive
    * @memberOf directives
    * @name AutoFocus
@@ -34,40 +34,40 @@
    * @description
    * This directive for auto-focus on the elements which its attached to.
    */
-  /* @ngInject */
-  function iscAutofocus( devlog, $timeout ) {
-    var channel = devlog.channel( 'iscAutofocus' );
+/* @ngInject */
+function iscAutofocus( devlog, $timeout ) {
+  var channel = devlog.channel( 'iscAutofocus' );
 
-    channel.debug( 'iscAutofocus LOADED' );
+  channel.debug( 'iscAutofocus LOADED' );
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict: 'A',
-      link    : link
-    };
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict: 'A',
+    link    : link
+  };
 
-    return directive;
+  return directive;
 
-    // ----------------------------
-    // functions
-    // ----------------------------
-    /**
-     *
-     * @param scope
-     * @param elem
-     * @param attr
-     * @description
-     * The method is the link method for the directive
-     */
-    function link( scope, elem, attr ) {
-      $timeout( function() {
-        elem[0].focus();
-      } );
+  // ----------------------------
+  // functions
+  // ----------------------------
+  /**
+   *
+   * @param scope
+   * @param elem
+   * @param attr
+   * @description
+   * The method is the link method for the directive
+   */
+  function link( scope, elem, attr ) {
+    $timeout( function() {
+      elem[0].focus();
+    } );
 
-    }//END LINK
+  }//END LINK
 
-  }//END CLASS
+}//END CLASS
 
 } )();

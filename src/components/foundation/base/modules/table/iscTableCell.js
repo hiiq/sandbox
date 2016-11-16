@@ -2,13 +2,13 @@
  * Created by Trevor Hudson on 06/02/15.
  */
 ( function() {
-  'use strict';
+'use strict';
 
-  angular.module( 'isc.table' )
-    .directive( 'iscTableCell', iscTableCell );
+angular.module( 'isc.table' )
+  .directive( 'iscTableCell', iscTableCell );
 
-  /* @ngInject */
-  /**
+/* @ngInject */
+/**
    * @ngdoc directive
    * @memberOf isc.table
    * @param devlog
@@ -17,109 +17,109 @@
    * @param $compile
    * @returns {{restrict: string, compile: compile}}
    */
-  function iscTableCell( devlog, $state, $templateCache, $compile ) {
-    var channel = devlog.channel( 'iscTableCell' );
+function iscTableCell( devlog, $state, $templateCache, $compile ) {
+  var channel = devlog.channel( 'iscTableCell' );
 
-    channel.debug( 'iscTableCell.LOADED' );
+  channel.debug( 'iscTableCell.LOADED' );
+
+  // ----------------------------
+  // vars
+  // ----------------------------
+
+  // ----------------------------
+  // class factory
+  // ----------------------------
+
+  var directive = {
+    scope       : true, //prototypal inheritance
+    restrict    : 'EA',
+    templateUrl : 'table/iscTableCell.html',
+    link        : link,
+    controller  : controller,
+    controllerAs: 'iscCellCtrl'
+  };
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+
+  /* @ngInject */
+  function controller() { //needed to use with controllerAs
+  }
+
+  function link( scope, elem, attrs ) {//jshint ignore:line
 
     // ----------------------------
     // vars
     // ----------------------------
+    var cellData    = _.get( scope.dataItem, scope.column.key );
+    var defaultText = scope.column.default;
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
+    scope.notThere       = notThere;
+    scope.getTrClass     = getTrClass;
+    scope.getDisplayText = getDisplayText;
+    scope.mobileClass    = scope.$eval( attrs.mobileClass );
 
-    var directive = {
-      scope       : true, //prototypal inheritance
-      restrict    : 'EA',
-      templateUrl : 'table/iscTableCell.html',
-      link        : link,
-      controller  : controller,
-      controllerAs: 'iscCellCtrl'
-    };
-    return directive;
+    scope.state = $state.current.name;
+
+    scope.displayText = getDisplayText( cellData, defaultText ); //getDisplayText( scope.dataItem[ column.key ], column.default );
+    scope.displayUnit = _.get( scope, 'dataItem[scope.column.unit]', '' );
+    scope.trClass     = getTrClass( cellData );
 
     // ----------------------------
     // functions
     // ----------------------------
 
-    /* @ngInject */
-    function controller() { //needed to use with controllerAs
+    function getTrClass( cellData ) {
+      if ( scope.column.className ) {
+        return scope.column.className;
+      }
+      else if ( scope.column.classGetter ) {
+        return scope.column.classGetter( cellData );
+      }
+      else {
+        return '';
+      }
     }
 
-    function link( scope, elem, attrs ) {//jshint ignore:line
+    /**
+     * @memberOf iscTableCell
+     * @returns {*}
+     */
+    function getDisplayText() {
 
-      // ----------------------------
-      // vars
-      // ----------------------------
       var cellData    = _.get( scope.dataItem, scope.column.key );
       var defaultText = scope.column.default;
 
-      scope.notThere       = notThere;
-      scope.getTrClass     = getTrClass;
-      scope.getDisplayText = getDisplayText;
-      scope.mobileClass    = scope.$eval( attrs.mobileClass );
-
-      scope.state = $state.current.name;
-
-      scope.displayText = getDisplayText( cellData, defaultText ); //getDisplayText( scope.dataItem[ column.key ], column.default );
-      scope.displayUnit = _.get( scope, 'dataItem[scope.column.unit]', '' );
-      scope.trClass     = getTrClass( cellData );
-
-      // ----------------------------
-      // functions
-      // ----------------------------
-
-      function getTrClass( cellData ) {
-        if ( scope.column.className ) {
-          return scope.column.className;
-        }
-        else if ( scope.column.classGetter ) {
-          return scope.column.classGetter( cellData );
-        }
-        else {
-          return '';
-        }
+      if ( scope.column.textGetter ) {
+        return scope.column.textGetter( scope.iscRowCtrl.dataItem );
       }
 
-      /**
-       * @memberOf iscTableCell
-       * @returns {*}
-       */
-      function getDisplayText() {
-
-        var cellData    = _.get( scope.dataItem, scope.column.key );
-        var defaultText = scope.column.default;
-
-        if ( scope.column.textGetter ) {
-          return scope.column.textGetter( scope.iscRowCtrl.dataItem );
-        }
-
-        var retVal;
-        if ( scope.notThere( cellData ) && scope.notThere( defaultText ) ) {
-          retVal = '';
-        }
-        else if ( scope.notThere( cellData ) ) {
-          retVal = String( defaultText );
-        }
-        else {
-          retVal = String( cellData );
-        }
-
-        return retVal;
+      var retVal;
+      if ( scope.notThere( cellData ) && scope.notThere( defaultText ) ) {
+        retVal = '';
+      }
+      else if ( scope.notThere( cellData ) ) {
+        retVal = String( defaultText );
+      }
+      else {
+        retVal = String( cellData );
       }
 
-      /**
-       * @memberOf iscTableCell
-       * @param val
-       * @returns {boolean}
-       */
-      function notThere( val ) {
-        return !val && val !== 0;
-      }
-
+      return retVal;
     }
+
+    /**
+     * @memberOf iscTableCell
+     * @param val
+     * @returns {boolean}
+     */
+    function notThere( val ) {
+      return !val && val !== 0;
+    }
+
   }
+}
 
 } )();

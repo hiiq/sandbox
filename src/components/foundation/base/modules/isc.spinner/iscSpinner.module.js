@@ -3,10 +3,10 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular
-    .module( 'isc.spinner', [] );
+angular
+  .module( 'isc.spinner', [] );
 
 } )();
 

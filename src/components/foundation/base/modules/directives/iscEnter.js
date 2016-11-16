@@ -1,7 +1,7 @@
 ( function() {
-  'use strict';
+'use strict';
 
-  /**
+/**
    * Created by Trevor Hudson on 1/30/16.
 
    This directive allows you to evaluate an expression within the scope of whatever element it's on
@@ -13,31 +13,31 @@
 
    */
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscEnter', iscEnter );
+angular.module( 'isc.directives' )
+  .directive( 'iscEnter', iscEnter );
 
-  /* @ngInject */
-  function iscEnter( keyCode, $injector ) {
-    return {
-      restrict: 'A',
-      link    : link
-    };
+/* @ngInject */
+function iscEnter( keyCode, $injector ) {
+  return {
+    restrict: 'A',
+    link    : link
+  };
 
-    function link( scope, element, attrs ) {
-      if ( attrs.scopeify ) {
-        scope[attrs.scopeify] = $injector.get( attrs.scopeify );
+  function link( scope, element, attrs ) {
+    if ( attrs.scopeify ) {
+      scope[attrs.scopeify] = $injector.get( attrs.scopeify );
+    }
+
+    element.bind( 'keydown keypress', function( event ) {
+      if ( getKey() === keyCode.ENTER ) {
+        scope.$eval( attrs.iscEnter );
+        event.preventDefault();
       }
 
-      element.bind( 'keydown keypress', function( event ) {
-        if ( getKey() === keyCode.ENTER ) {
-          scope.$eval( attrs.iscEnter );
-          event.preventDefault();
-        }
-
-        function getKey() {
-          return event.charCode || event.keyCode || event.which || 0;
-        }
-      } );
-    }
+      function getKey() {
+        return event.charCode || event.keyCode || event.which || 0;
+      }
+    } );
   }
+}
 } )();

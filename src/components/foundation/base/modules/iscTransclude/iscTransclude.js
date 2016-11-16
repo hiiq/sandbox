@@ -107,16 +107,16 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscTransclude', iscTransclude );
+angular.module( 'isc.directives' )
+  .directive( 'iscTransclude', iscTransclude );
 
-  /* @ngInject */
-  /**
+/* @ngInject */
+/**
    * @ngdoc directive
    * @memberOf isc.directives
    * @description
@@ -227,93 +227,93 @@
    * @param $parse
    * @returns {{restrict: string, transclude: boolean, scope: boolean, compile: compile, controller: directive.controller, controllerAs: string, templateUrl: directive.templateUrl}}
    */
-  function iscTransclude( $parse ) {
+function iscTransclude( $parse ) {
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict    : 'E',
-      transclude  : true,
-      scope       : true,
-      compile     : compile,
-      controller  : function() {
-      },
-      controllerAs: 'iscTranscludeCtrl',
-      templateUrl : function( element, attrs ) {
-        return attrs.templateUrl || 'iscTransclude/iscGridFormItem.html';
-      }
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict    : 'E',
+    transclude  : true,
+    scope       : true,
+    compile     : compile,
+    controller  : function() {
+    },
+    controllerAs: 'iscTranscludeCtrl',
+    templateUrl : function( element, attrs ) {
+      return attrs.templateUrl || 'iscTransclude/iscGridFormItem.html';
+    }
+  };
+
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+
+  function compile() {
+    return {
+      pre: pre
     };
+  }
 
-    return directive;
+  function pre( scope, element, attrs, iscTranscludeCtrl ) {
+    var configItemKey = 'configItem';
+    scope.$watch( attrs.config, updateConfig, true );
 
-    // ----------------------------
-    // functions
-    // ----------------------------
+    function updateConfig( config, oldConfig ) {
 
-    function compile() {
-      return {
-        pre: pre
-      };
-    }
-
-    function pre( scope, element, attrs, iscTranscludeCtrl ) {
-      var configItemKey = 'configItem';
-      scope.$watch( attrs.config, updateConfig, true );
-
-      function updateConfig( config, oldConfig ) {
-
-        if ( _.isString( config ) ) {
-          iscTranscludeCtrl.config = angular.copy( scope.$eval( config ) || {} );
-        } else {
-          iscTranscludeCtrl.config = angular.copy( config || {} );
-        }
-
-        config = iscTranscludeCtrl.config;
-
-        var attrOverrides = getAttributeOverrides( attrs );
-        _.extend( config, attrOverrides );
-
+      if ( _.isString( config ) ) {
+        iscTranscludeCtrl.config = angular.copy( scope.$eval( config ) || {} );
+      } else {
+        iscTranscludeCtrl.config = angular.copy( config || {} );
       }
 
-      function getAttributeOverrides( attrs ) {
-        var propKey,
-            firstChar,
-            retOverrides = {};
-        _.forOwn( attrs, function( propValue, propName ) {
-          if ( _.startsWith( propName, configItemKey ) ) {
+      config = iscTranscludeCtrl.config;
 
-            propKey = _.camelCase( propName.substr( configItemKey.length ) );
+      var attrOverrides = getAttributeOverrides( attrs );
+      _.extend( config, attrOverrides );
 
-            firstChar = _.first( propValue );
-            //remove parameter type indicator
-            if ( _.includes( ['@', '=', '&'], firstChar ) ) {
-              propValue = propValue.substring( 1 );
-            }
+    }
 
-            // function
-            if ( firstChar === '&' ) {
-              propValue = $parse( propValue );
-            }
-            // expression
-            else if ( firstChar === '=' ) {
-              propValue = scope.$parent.$eval( propValue );
-            }
+    function getAttributeOverrides( attrs ) {
+      var propKey,
+          firstChar,
+          retOverrides = {};
+      _.forOwn( attrs, function( propValue, propName ) {
+        if ( _.startsWith( propName, configItemKey ) ) {
 
-            // treat else the same as '@', just without the need to remove '@' char
-            retOverrides[propKey] = propValue;
+          propKey = _.camelCase( propName.substr( configItemKey.length ) );
+
+          firstChar = _.first( propValue );
+          //remove parameter type indicator
+          if ( _.includes( ['@', '=', '&'], firstChar ) ) {
+            propValue = propValue.substring( 1 );
           }
-        } );
 
-        return retOverrides;
-      }
+          // function
+          if ( firstChar === '&' ) {
+            propValue = $parse( propValue );
+          }
+          // expression
+          else if ( firstChar === '=' ) {
+            propValue = scope.$parent.$eval( propValue );
+          }
 
+          // treat else the same as '@', just without the need to remove '@' char
+          retOverrides[propKey] = propValue;
+        }
+      } );
+
+      return retOverrides;
     }
 
-  }//END CLASS
+  }
+
+}//END CLASS
 
 } )();

@@ -3,16 +3,16 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscCriticalBanner', iscCriticalBanner );
+angular.module( 'isc.directives' )
+  .directive( 'iscCriticalBanner', iscCriticalBanner );
 
-  /* @ngInject */
-  /**
+/* @ngInject */
+/**
    * @ngdoc directive
    * @memberOf directives
    * @name iscCriticalBanner
@@ -27,38 +27,38 @@
    * <div iscCriticalBanner templateUrl="myCriticalBanner.html" ></div>
    *
    */
-  function iscCriticalBanner() {//jshint ignore:line
+function iscCriticalBanner() {//jshint ignore:line
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict        : 'EA',
-      scope           : {
-        message : '@',
-        cssClass: '@'
-      },
-      controller      : controller,
-      controllerAs    : 'iscBannerCtrl',
-      bindToController: true,
-      templateUrl     : function( elem, attrs ) {
-        return attrs.templateUrl || 'directives/iscCriticalBanner/iscCriticalBanner.html';
-      }
-    };
-
-    return directive;
-
-    // ----------------------------
-    // functions
-    // ----------------------------
-    function controller() {
-      var self = this;
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict        : 'EA',
+    scope           : {
+      message : '@',
+      cssClass: '@'
+    },
+    controller      : controller,
+    controllerAs    : 'iscBannerCtrl',
+    bindToController: true,
+    templateUrl     : function( elem, attrs ) {
+      return attrs.templateUrl || 'directives/iscCriticalBanner/iscCriticalBanner.html';
     }
+  };
 
-  }//END CLASS
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+  function controller() {
+    var self = this;
+  }
+
+}//END CLASS
 
 } )();

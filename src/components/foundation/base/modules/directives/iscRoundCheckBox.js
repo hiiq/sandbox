@@ -3,14 +3,14 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscRoundCheckBox', iscRoundCheckBox );
-  /**
+angular.module( 'isc.directives' )
+  .directive( 'iscRoundCheckBox', iscRoundCheckBox );
+/**
    * @ngdoc directive
    * @memberOf directives
    * @name iscRoundCheckBox
@@ -19,57 +19,57 @@
    * @param devlog
    * @returns {{restrict: string, transclude: boolean, require: string, scope: {onToggle: string}, link: link, templateUrl: directive.templateUrl}}
    */
-  /* @ngInject */
-  function iscRoundCheckBox( devlog ) {//jshint ignore:line
-    var channel = devlog.channel( 'iscRoundCheckBox' );
-    channel.debug( 'iscRoundCheckBox LOADED' );
+/* @ngInject */
+function iscRoundCheckBox( devlog ) {//jshint ignore:line
+  var channel = devlog.channel( 'iscRoundCheckBox' );
+  channel.debug( 'iscRoundCheckBox LOADED' );
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict   : 'EA',
-      require    : '?ngModel',
-      scope      : {
-        onToggle: '&'
-      },
-      link       : link,
-      templateUrl: function( elem, attrs ) {
-        return attrs.templateUrl || 'svg/isc-rounded-checkbox.html';
-      }
-    };
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict   : 'EA',
+    require    : '?ngModel',
+    scope      : {
+      onToggle: '&'
+    },
+    link       : link,
+    templateUrl: function( elem, attrs ) {
+      return attrs.templateUrl || 'svg/isc-rounded-checkbox.html';
+    }
+  };
 
-    return directive;
+  return directive;
 
-    // ----------------------------
-    // functions
-    // ----------------------------
+  // ----------------------------
+  // functions
+  // ----------------------------
 
-    function link( scope, elem, attr, ngModelCtrl ) {
+  function link( scope, elem, attr, ngModelCtrl ) {
 
-      scope.selected = false;
+    scope.selected = false;
 
-      if ( ngModelCtrl ) {
-        ngModelCtrl.$render = function() {
-          scope.selected = !!ngModelCtrl.$viewValue;
-        };
-      }
-
-      scope.toggleCheckBox = function() {
-        scope.selected = !scope.selected;
-        scope.onToggle( { selected: scope.selected } );
-
-        if ( ngModelCtrl ) {
-          channel.debug( 'iscRoundCheckBox.$setViewValue' );
-          ngModelCtrl.$setViewValue( !ngModelCtrl.$viewValue );
-        }
+    if ( ngModelCtrl ) {
+      ngModelCtrl.$render = function() {
+        scope.selected = !!ngModelCtrl.$viewValue;
       };
     }
 
-  }//END CLASS
+    scope.toggleCheckBox = function() {
+      scope.selected = !scope.selected;
+      scope.onToggle( { selected: scope.selected } );
+
+      if ( ngModelCtrl ) {
+        channel.debug( 'iscRoundCheckBox.$setViewValue' );
+        ngModelCtrl.$setViewValue( !ngModelCtrl.$viewValue );
+      }
+    };
+  }
+
+}//END CLASS
 
 } )();

@@ -47,7 +47,7 @@
 
   function run( $rootScope, $state, $window, $timeout, $translate, FoundationApi, iscAuthenticationInterceptorConfig, apiHelper,
     devlog, loginApi, AUTH_EVENTS, NOTIFICATION, iscNavContainerModel, iscConfirmationService, iscNotificationService, iscSessionModel,
-    iscRouterDefaultEventService, iscExternalRouteApi, iscStateInit, iscVersionApi, iscCustomConfigService) {
+    iscRouterDefaultEventService, iscExternalRouteApi, iscStateInit, iscVersionApi, iscCustomConfigService ) {
 
     var log = devlog.channel( 'app.module' );
     iscAuthenticationInterceptorConfig.configure( {

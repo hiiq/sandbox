@@ -3,13 +3,13 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular
-    .module( 'isc.directives' )
-    .directive( 'agenda', agenda );
+angular
+  .module( 'isc.directives' )
+  .directive( 'agenda', agenda );
 
-  /**
+/**
    * usage:
    *   <agenda config="plannerCtrl.config" data="plannerCtrl.vitals"></agenda>
    *
@@ -27,33 +27,33 @@
       title: "Agenda"  //used as header title
    * }]
    */
-  /* @ngInject */
-  function agenda() {//jshint ignore:line
+/* @ngInject */
+function agenda() {//jshint ignore:line
 
-    var directive = {
-      restrict        : 'EA',
-      scope           : {},
-      bindToController: {
-        "agenda" : "=data",
-        "config" : "=",
-        "options": "=?" //can be used to extend functionality when used with custom templateUrl
-      },
-      controller      : controller,
-      controllerAs    : 'agendaCtrl',
-      templateUrl     : function( elem, attrs ) {
-        return attrs.templateUrl || 'isc.agenda/isc.agenda.html';
-      }
-    };
-
-    return directive;
-
-    // ----------------------------
-    // functions
-    // ----------------------------
-    function controller() {
-      var self = this;
+  var directive = {
+    restrict        : 'EA',
+    scope           : {},
+    bindToController: {
+      "agenda" : "=data",
+      "config" : "=",
+      "options": "=?" //can be used to extend functionality when used with custom templateUrl
+    },
+    controller      : controller,
+    controllerAs    : 'agendaCtrl',
+    templateUrl     : function( elem, attrs ) {
+      return attrs.templateUrl || 'isc.agenda/isc.agenda.html';
     }
+  };
 
-  }//END CLASS
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+  function controller() {
+    var self = this;
+  }
+
+}//END CLASS
 
 } )();

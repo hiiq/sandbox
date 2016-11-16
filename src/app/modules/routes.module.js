@@ -4,10 +4,13 @@
 
 ( function() {
   'use strict';
+
   angular
     .module( 'routes', [
+      'typeahead',
       'home',
       'layout',
       'login'
     ] );
+
 } )();

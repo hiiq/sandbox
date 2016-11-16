@@ -3,13 +3,13 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular.module( 'isc.table' )
-    .directive( 'iscTableAddRow', iscTableAddRow );
+angular.module( 'isc.table' )
+  .directive( 'iscTableAddRow', iscTableAddRow );
 
-  /* @ngInject */
-  /**
+/* @ngInject */
+/**
    * @ngdoc directive
    * @memberOf isc.table
    * @param devlog
@@ -18,54 +18,54 @@
    * @param $compile
    * @returns {{scope: boolean, restrict: string, controllerAs: string, controller: string, compile: compile}}
    */
-  function iscTableAddRow( devlog, $state, $templateCache, $compile ) {
-    var channel = devlog.channel( 'iscTableAddRow' );
+function iscTableAddRow( devlog, $state, $templateCache, $compile ) {
+  var channel = devlog.channel( 'iscTableAddRow' );
 
-    channel.debug( 'iscTableAddRow.LOADED' );
+  channel.debug( 'iscTableAddRow.LOADED' );
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
+  // ----------------------------
+  // class factory
+  // ----------------------------
 
-    var directive = {
-      scope       : true, //prototypal inheritance
-      restrict    : 'A',
-      controllerAs: 'iscRowCtrl',
-      controller  : 'iscTableRowController',
-      compile     : compile
+  var directive = {
+    scope       : true, //prototypal inheritance
+    restrict    : 'A',
+    controllerAs: 'iscRowCtrl',
+    controller  : 'iscTableRowController',
+    compile     : compile
+  };
+
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+  function compile() {
+
+    return {
+      pre: pre
     };
 
-    return directive;
+    function pre( scope, trElem, attrs, iscRowCtrl ) {
+      iscRowCtrl.iscTblCtrl = scope.iscTblCtrl;
+      iscRowCtrl.dataItem   = scope.dataItem = {};
+      iscRowCtrl.isAddRow = true;
+      var defaultTemplate = scope.iscTblCtrl.tableConfig.editable === 'popup' ? 'table/popup/iscTablePopupRow.html' : 'table/iscTableAddRow.html';
+      var addRowTemplate  = _.get( scope, 'iscTblCtrl.tableConfig.addRowTemplate', defaultTemplate );
 
-    // ----------------------------
-    // functions
-    // ----------------------------
-    function compile() {
+      if ( addRowTemplate ) {
+        //for some reason the template doesn't like spaces nor comments
+        var template = $templateCache.get( addRowTemplate );
 
-      return {
-        pre: pre
-      };
-
-      function pre( scope, trElem, attrs, iscRowCtrl ) {
-        iscRowCtrl.iscTblCtrl = scope.iscTblCtrl;
-        iscRowCtrl.dataItem   = scope.dataItem = {};
-        iscRowCtrl.isAddRow = true;
-        var defaultTemplate = scope.iscTblCtrl.tableConfig.editable === 'popup' ? 'table/popup/iscTablePopupRow.html' : 'table/iscTableAddRow.html';
-        var addRowTemplate  = _.get( scope, 'iscTblCtrl.tableConfig.addRowTemplate', defaultTemplate );
-
-        if ( addRowTemplate ) {
-          //for some reason the template doesn't like spaces nor comments
-          var template = $templateCache.get( addRowTemplate );
-
-          trElem.html( template );
-          $compile( trElem.contents() )( scope );
-        }
+        trElem.html( template );
+        $compile( trElem.contents() )( scope );
       }
     }
   }
+}
 
 } )();

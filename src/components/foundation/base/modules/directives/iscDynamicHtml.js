@@ -3,14 +3,14 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscDynamicHtml', iscDynamicHtml );
-  /**
+angular.module( 'isc.directives' )
+  .directive( 'iscDynamicHtml', iscDynamicHtml );
+/**
    * @ngdoc directive
    * @memberOf directives
    * @name iscDynamicHtml
@@ -21,38 +21,38 @@
    * @description
    * this directive allows to inject html dynamcally
    */
-  /* @ngInject */
-  function iscDynamicHtml( devlog, $compile, $templateCache ) {//jshint ignore:line
-    var channel = devlog.channel( 'iscDynamicHtml' );
-    channel.debug( 'iscDynamicHtml LOADED' );
+/* @ngInject */
+function iscDynamicHtml( devlog, $compile, $templateCache ) {//jshint ignore:line
+  var channel = devlog.channel( 'iscDynamicHtml' );
+  channel.debug( 'iscDynamicHtml LOADED' );
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict: 'EA',
-      replace : true,
-      link    : link
-    };
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict: 'EA',
+    replace : true,
+    link    : link
+  };
 
-    return directive;
+  return directive;
 
-    // ----------------------------
-    // functions
-    // ----------------------------
+  // ----------------------------
+  // functions
+  // ----------------------------
 
-    function link( scope, elem, attr ) {
-      scope.$watch( attr.iscDynamicHtml, function( html ) {
-        channel.debug( 'iscDynamicHtml', html );
-        elem.html( html );
-        $compile( elem.contents() )( scope );
-      } );
-    }
+  function link( scope, elem, attr ) {
+    scope.$watch( attr.iscDynamicHtml, function( html ) {
+      channel.debug( 'iscDynamicHtml', html );
+      elem.html( html );
+      $compile( elem.contents() )( scope );
+    } );
+  }
 
-  }//END CLASS
+}//END CLASS
 
 } )();

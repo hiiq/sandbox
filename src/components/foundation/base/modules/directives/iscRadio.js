@@ -10,14 +10,14 @@
  */
 
 ( function() {
-  'use strict';
-  // ----------------------------
-  // injection
-  // ----------------------------
+'use strict';
+// ----------------------------
+// injection
+// ----------------------------
 
-  angular.module( 'isc.directives' )
-    .directive( 'iscRadio', iscRadio );
-  /**
+angular.module( 'isc.directives' )
+  .directive( 'iscRadio', iscRadio );
+/**
    * @ngdoc directive
    * @memberOf directives
    * @name iscRadio
@@ -33,44 +33,44 @@
    *            ng-click="onRadioSelect( scope.selectedItem )><isc-radio>
    *
    */
-  /* @ngInject */
-  function iscRadio( devlog, iscRadioGroupHelper ) {
-    var channel = devlog.channel( 'iscRadio' );
-    channel.debug( 'iscRadio LOADED' );
+/* @ngInject */
+function iscRadio( devlog, iscRadioGroupHelper ) {
+  var channel = devlog.channel( 'iscRadio' );
+  channel.debug( 'iscRadio LOADED' );
 
-    // ----------------------------
-    // vars
-    // ----------------------------
+  // ----------------------------
+  // vars
+  // ----------------------------
 
-    // ----------------------------
-    // class factory
-    // ----------------------------
-    var directive = {
-      restrict   : 'EA',
-      transclude : false,
-      scope      : {
-        radioGroup: '=',
-        radioItem : '='
-      },
-      link       : link,
-      templateUrl: function( elem, attrs ) {
-        return attrs.templateUrl || 'svg/isc-radio.html';
-      }
-    };
-
-    return directive;
-
-    // ----------------------------
-    // functions
-    // ----------------------------
-
-    function link( scope, elem, attr ) {//jshint ignore:line
-
-      scope.toggle = function() {
-        iscRadioGroupHelper.radioSelect( scope.radioItem, scope.radioGroup );
-      };
+  // ----------------------------
+  // class factory
+  // ----------------------------
+  var directive = {
+    restrict   : 'EA',
+    transclude : false,
+    scope      : {
+      radioGroup: '=',
+      radioItem : '='
+    },
+    link       : link,
+    templateUrl: function( elem, attrs ) {
+      return attrs.templateUrl || 'svg/isc-radio.html';
     }
+  };
 
-  }//END CLASS
+  return directive;
+
+  // ----------------------------
+  // functions
+  // ----------------------------
+
+  function link( scope, elem, attr ) {//jshint ignore:line
+
+    scope.toggle = function() {
+      iscRadioGroupHelper.radioSelect( scope.radioItem, scope.radioGroup );
+    };
+  }
+
+}//END CLASS
 
 } )();

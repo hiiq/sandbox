@@ -1,0 +1,63 @@
+<tags-input
+  ng-model="$ctrl.iscModel"
+  id="{{ $ctrl.props.form.formId }}"
+  name="{{ $ctrl.props.form.formId }}"
+  class="show-tags"
+  ng-class="{ 'no-tags': $ctrl.props.tagsInput.noTags }"
+  template="{{ $ctrl.props.tagsInput.template }}"
+  ng-required="{{ $ctrl.props.tagsInput.required }}"
+  key-property="{{  $ctrl.props.tagsInput.keyProperty }}"
+  display-property="{{  $ctrl.props.tagsInput.displayProperty }}"
+  tabindex="{{ $ctrl.props.tagsInput.tabindex }}"
+  placeholder="{{ $ctrl.props.tagsInput.placeholder | translate }}"
+  min-length="{{ $ctrl.props.tagsInput.minLength }}"
+  max-length="{{ $ctrl.props.tagsInput.maxLength }}"
+  min-tags="{{ $ctrl.props.tagsInput.minTags }}"
+  max-tags="{{ $ctrl.props.tagsInput.maxTags }}"
+  add-on-enter="{{ $ctrl.props.tagsInput.addOnEnter }}"
+  add-on-space="{{ $ctrl.props.tagsInput.addOnSpace }}"
+  add-on-comma="{{ $ctrl.props.tagsInput.addOnComma }}"
+  add-on-blur="{{ $ctrl.props.tagsInput.addOnBlur }}"
+  add-on-paste="{{ $ctrl.props.tagsInput.addOnPaste }}"
+  paste-split-pattern="{{ $ctrl.props.tagsInput.pasteSplitPattern }}"
+  enable-editing-last-tag="{{ $ctrl.props.tagsInput.enableEditingLastTag }}"
+  replace-spaces-with-dashes="{{ $ctrl.props.tagsInput.replaceSpacesWithDashes }}"
+  add-from-autocomplete-only="{{ $ctrl.props.tagsInput.addFromAutocompleteOnly }}"
+  on-tag-added="$ctrl.tagAdded($tag)"
+  on-tag-adding="$ctrl.tagAdding($tag)"
+  on-tag-removed="$ctrl.tagRemoved($tag)"
+  on-tag-removing="$ctrl.tagRemoving($tag)"
+  on-invalid-tag="$ctrl.invalidTag($tag)"
+  on-tag-clicked="$ctrl.tagClicked($tag)">
+  <auto-complete
+    source="$ctrl.iscSource($query)"
+    template="{{ $ctrl.props.autoComplete.template }}"
+    display-property="{{  $ctrl.props.autoComplete.displayProperty }}"
+    min-length="{{ $ctrl.props.autoComplete.minLength }}"
+    max-results-to-show="{{ $ctrl.props.autoComplete.maxResultsToShow }}"
+    debounce-delay="{{ $ctrl.props.autoComplete.debounceDelay }}"
+    select-first-match="{{ $ctrl.props.autoComplete.selectFirstMatch }}"
+    highlight-matched-text="{{ $ctrl.props.autoComplete.highlightMatchedText }}"
+    load-on-down-arrow="{{ $ctrl.props.autoComplete.loadOnDownArrow }}"
+    load-on-empty="{{ $ctrl.props.autoComplete.loadOnEmpty }}"
+    load-on-focus="{{ $ctrl.props.autoComplete.loadOnFocus }}">
+  </auto-complete>
+</tags-input>
+
+<script type="text/ng-template" id="tag-template">
+  <div class="tag-template">
+    <div class="right-panel">
+      <span>{{ $getDisplayText() }}</span>
+      <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+  <div class="autocomplete-template">
+    <div class="right-panel">
+      <span ng-bind-html="$highlight( $getDisplayText() )"></span>
+      <span><b>{{ data.text }}</b></span>
+    </div>
+  </div>
+</script>

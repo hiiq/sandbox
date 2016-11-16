@@ -4,47 +4,47 @@
  */
 
 ( function() {
-  'use strict';
+'use strict';
 
-  angular.module( 'isc.forms' )
-    .directive( 'iscFormsHelp', iscFormsHelp );
+angular.module( 'isc.forms' )
+  .directive( 'iscFormsHelp', iscFormsHelp );
 
-  /* @ngInject */
-  function iscFormsHelp( $sce ) {//jshint ignore:line
+/* @ngInject */
+function iscFormsHelp( $sce ) {//jshint ignore:line
 
-    var directive = {
-      restrict        : 'E',
-      transclude      : true,
-      replace         : true,
-      bindToController: true,
-      scope           : {
-        helpContent: '='
-      },
-      controllerAs    : 'helpCtrl',
-      controller      : controller,
-      templateUrl     : function( elem, attrs ) {
-        return attrs.templateUrl || 'forms/widgets/iscFormsHelp/iscFormsHelp.html';
-      }
-    };
+  var directive = {
+    restrict        : 'E',
+    transclude      : true,
+    replace         : true,
+    bindToController: true,
+    scope           : {
+      helpContent: '='
+    },
+    controllerAs    : 'helpCtrl',
+    controller      : controller,
+    templateUrl     : function( elem, attrs ) {
+      return attrs.templateUrl || 'forms/widgets/iscFormsHelp/iscFormsHelp.html';
+    }
+  };
 
-    return directive;
+  return directive;
 
-    function controller() {
-      var self = this;
+  function controller() {
+    var self = this;
 
-      _.extend( self, {
-        showHelp      : false,
-        toggleHelp    : toggleHelp,
-        getHelpContent: getHelpContent
-      } );
+    _.extend( self, {
+      showHelp      : false,
+      toggleHelp    : toggleHelp,
+      getHelpContent: getHelpContent
+    } );
 
-      function toggleHelp() {
-        self.showHelp = !self.showHelp;
-      }
+    function toggleHelp() {
+      self.showHelp = !self.showHelp;
+    }
 
-      function getHelpContent() {
-        return $sce.trustAsHtml( self.helpContent );
-      }
+    function getHelpContent() {
+      return $sce.trustAsHtml( self.helpContent );
     }
   }
+}
 } )();
