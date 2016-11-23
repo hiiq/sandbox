@@ -11,7 +11,6 @@ angular
     bindings    : {
       iscModel  : '=',
       iscRules  : '<',
-      iscConfig : '<',
       iscSource : '=',
       onAdd     : '&',
       onAdding  : '&',
@@ -28,12 +27,12 @@ angular
   } );
 
 /**
-   * @ngdoc component
-   * @memberOf isc.typeahead
-   * @description Tag styled input text box with auto-complete functionality
-   * @param devlog
-   * @param typeaheadConfiguration
-   */
+ * @ngdoc component
+ * @memberOf isc.typeahead
+ * @description Tag styled input text box with auto-complete functionality
+ * @param devlog
+ * @param typeaheadConfiguration
+ */
 /* @ngInject */
 function typeaheadController( devlog, typeaheadConfiguration ) {
 

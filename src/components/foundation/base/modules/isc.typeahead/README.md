@@ -1,17 +1,68 @@
 # TYPEAHEAD COMPONENT GUIDE
 
-## isc-typeahead-component
-Custom wrapper for 3rd party ngTagsInput directive.
+### Basic Example
+This example contains the required configuration settings needed to use the component out of the box without any additional configuration.
 
-### Usage
+demo.template.html
 
 ``` html
-
 <isc-typeahead-component
-    tags="{string}"
-    source="{expression}"
-    [rule="{object}"]
-    [config="{object}"]
+    isc-model="demoCtrl.tags"
+    isc-source="demoCtrl.load">
+</isc-typeahead-component>
+```
+
+demo.module.js
+
+``` js
+function config( typeaheadConfigurationProvider ) {
+
+    var userConfiguration = {
+        "tagsInput"   : {
+            keyProperty            : "Id",
+            displayProperty        : "name"
+        },
+        "autoComplete": {
+            displayProperty        : "name"
+        }
+    };
+
+    typeaheadConfigurationProvider.setUserConfiguration( userConfiguration );
+}
+```
+
+demo.controller.js
+
+``` js
+function demoController( iscHttpapi, apiHelper ) {
+
+    var self = this;
+    var tags = [];
+
+    _.extend( self, {
+      tags: tags,
+      load: load
+    } );
+
+    function load( query ) {
+      var filter = '';
+      if ( !angular.isUndefined( query ) ) {
+        filter = query.toLowerCase();
+      }
+      var url = apiHelper.getUrl( '/some-rest-api?filter=' + filter );
+      return iscHttpapi.get( url );
+    }
+}
+```
+
+## isc-typeahead-component | HTML
+Custom wrapper for 3rd party ngTagsInput directive.
+
+``` html
+<isc-typeahead-component
+    isc-model="{string}"
+    isc-source="{expression}"
+    [isc-rules="{object}"]
     [on-add="{expression}"]
     [on-adding="{expression}"]
     [on-remove="{expression}"]
@@ -21,24 +72,84 @@ Custom wrapper for 3rd party ngTagsInput directive.
 </isc-typeahead-component>
 ```
 
-
 ### Parameters
-
-| Name                      | Type          | Default               | Description                                                                           |
-| ------------------------- | ------------- | --------------------- | ------------------------------------------------------------------------------------- |
-| tags (required)           | string        | -                     | Assignable Angular expression to data-bind to.                                        |
-| source (required)         | expression    | -                     | Expression to evaluate upon changing the input content. The input value is available as $query. The result of the expression must be a promise that eventually resolves to an array of strings.                                        |
-| rule                      | object        | -                     | Object that contains all custom business rules to be executed and evaluated on initiation and on update |
-| config                    | object        | -                     | Object that contains user specific component configuration data. The config data overwrites the tagsInput and autoComplete defaults. |
-| onAdd                     | expression    | -                     | Expression to evaluate upon adding a new tag. The new tag is available as $tag.                                |
-| onAdding                  | expression    | -                     | Expression to evaluate that will be invoked before adding a new tag. The new tag is available as $tag. This method must return either a boolean value or a promise. If either a false value or a rejected promise is returned, the tag will not be added.                                |
-| onRemove                  | expression    | -                     | Expression to evaluate upon removing an existing tag. The removed tag is available as $tag.                                |
-| onRemoving                | expression    | -                     | Expression to evaluate that will be invoked before removing a tag. The tag is available as $tag. This method must return either a boolean value or a promise. If either a false value or a rejected promise is returned, the tag will not be removed.                                |
-| onInvalid                 | expression    | -                     | Expression to evaluate when a tag is invalid. The invalid tag is available as $tag.                                |
-| onClicked                 | expression    | -                     | Expression to evaluate upon clicking an existing tag. The clicked tag is available as $tag.                                |
+| Name                      | Type          | Description                                                                                                                                                                                                                                               |
+| ------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| isc-model (required)      | string        | Assignable Angular expression to data-bind to.                                                                                                                                                                                                            |
+| isc-source (required)     | expression    | Expression to evaluate upon changing the input content. The input value is available as $query. The result of the expression must be a promise that eventually resolves to an array of strings.                                                           |
+| isc-rule                  | object        | Object that contains all custom business rules to be executed and evaluated on initiation and on update                                                                                                                                                   |
+| onAdd                     | expression    | Expression to evaluate upon adding a new tag. The new tag is available as $tag.                                                                                                                                                                           |
+| onAdding                  | expression    | Expression to evaluate that will be invoked before adding a new tag. The new tag is available as $tag. This method must return either a boolean value or a promise. If either a false value or a rejected promise is returned, the tag will not be added. |
+| onRemove                  | expression    | Expression to evaluate upon removing an existing tag. The removed tag is available as $tag.                                                                                                                                                               |
+| onRemoving                | expression    | Expression to evaluate that will be invoked before removing a tag. The tag is available as $tag. This method must return either a boolean value or a promise. If either a false value or a rejected promise is returned, the tag will not be removed.     |
+| onInvalid                 | expression    | Expression to evaluate when a tag is invalid. The invalid tag is available as $tag.                                                                                                                                                                       |
+| onClicked                 | expression    | Expression to evaluate upon clicking an existing tag. The clicked tag is available as $tag.                                                                                                                                                               |
 
 
-## tags-input
+## typeaheadConfiguration.setUserConfiguration( user ) | JS
+Sets user custom configuration settings and global configuration settings for both tagsInput and autoComplete directives.
+
+### Usage
+
+``` js
+function config( typeaheadConfigurationProvider ) {
+
+    var requiredUserConfiguration = {
+        "tagsInput"            : {
+            displayProperty    : "name",
+            keyProperty        : "userId"
+        },
+        "autoComplete"         : {
+            displayProperty    : "name"
+        }
+    };
+
+    typeaheadConfigurationProvider.setUserConfiguration( requiredUserConfiguration );
+
+    var additionalUserConfiguration = {
+      "form"                   : {
+        debug                  : false,
+        formId                 : "tags"
+      },
+      "tagsInput"              : {
+        template               : "user-tag-template",
+        displayProperty        : "name",
+        keyProperty            : "userId",
+        placeholder            : "Search:",
+        maxTags                : 3,
+        replaceSpacesWithDashes: true,
+        enableEditingLastTag   : true,
+        noTags                 : false
+      },
+      "autoComplete"           : {
+        template               : "user-autocomplete-template",
+        displayProperty        : "name",
+        minLength              : 2,
+        maxResultsToShow       : 5,
+        highlightMatchedText   : true
+      }
+    };
+
+    typeaheadConfigurationProvider.setUserConfiguration( additionalUserConfiguration );
+}
+```
+
+### Parameter
+
+| Name                                          | Type          | Description                                                                           |
+| --------------------------------------------- | ------------- | ------------------------------------------------------------------------------------- |
+| user (required)                               | string        | user configuration settings for the form, tagsInput and autoComplete                  |
+
+### Required User Properties
+
+| Name                               | Type          | Description                                                                           |
+| -----------------------------------| ------------- | ------------------------------------------------------------------------------------- |
+| user.tagsInput.keyProperty         | string        | Read description above for parameter                                                  |
+| user.tagsInput.displayProperty     | string        | Read description above for parameter                                                  |
+| user.autoComplete.displayProperty  | string        | Read description above for parameter                                                  |
+
+
+## tags-input | 3rd Party
 Renders an input box with tag editing support.
 
 ### Usage
@@ -81,7 +192,6 @@ Renders an input box with tag editing support.
 </tags-input>
 ```
 
-
 ### Parameters
 
 | Name                      | Type          | Default           | Description                                                                           |
@@ -114,7 +224,7 @@ Renders an input box with tag editing support.
 | onTagClicked              | expression    | -                 | Expression to evaluate upon clicking an existing tag. The clicked tag is available as $tag.                                |
 
 
-## auto-complete
+## auto-complete | 3rd Party
 Provides autocomplete support for the tagsInput directive.
 
 ### Usage
@@ -160,8 +270,8 @@ Provides autocomplete support for the tagsInput directive.
 
 ``` html
 <isc-typeahead-component
-    tags="lookDemoCtrl.tags"
-    source="lookDemoCtrl.load">
+    isc-model="lookDemoCtrl.tags"
+    isc-source="lookDemoCtrl.load">
 </isc-typeahead-component>
 ```
 
@@ -169,10 +279,10 @@ Provides autocomplete support for the tagsInput directive.
 angular.module('app', ['isc.components']).controller('MainController', function( $http ) {
     self = this;
     self.tags = [
-        { text: 'Tag 1' },
-        { text: 'Tag 2' },
-        { text: 'Tag 3' },
-        { text: 'Tag 4' }
+        { id: 1, name: 'Tag 1' },
+        { id: 2, name: 'Tag 2' },
+        { id: 3, name: 'Tag 3' },
+        { id: 4, name: 'Tag 4' }
     ];
     self.load = function(query) {
          return $http.get('/tags?query=' + query);

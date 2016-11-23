@@ -21,6 +21,7 @@
 
     iscStateProvider.state( getStates() );
 
+    /*
     var userConfiguration = {
       "form"        : {
         debug : false,
@@ -44,6 +45,17 @@
         highlightMatchedText: true
       }
     };
+    */
+
+    var userConfiguration = {
+        "tagsInput"   : {
+            displayProperty        : "name",
+            keyProperty            : "userId"
+          },
+        "autoComplete": {
+            displayProperty        : "name"
+          }
+      };
 
     typeaheadConfigurationProvider.setUserConfiguration( userConfiguration );
   }
